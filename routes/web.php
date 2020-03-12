@@ -13,4 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'Web\AppController@getApp')->middleware('auth');
+Route::group(['namespace' => 'Web'], function () {
+    Route::get('/', 'AppController@getApp')->middleware('auth');
+
+    Route::get('/login', 'Appcontroller@getLogin')->middleware('guest')->name('login');
+
+    Route::get('/auth/{social}', 'AuthenticationController@getSocialRedirect')->middleware('guest');
+
+    Route::get('/auth/{social}/callback', 'AuthenticationController@getSocialCallback')->middleware('guest');
+});

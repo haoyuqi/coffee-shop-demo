@@ -1,7 +1,5 @@
 window._ = require('lodash');
 
-import Vue from 'vue';
-
 try {
     window.$ = window.jQuery = require('jquery');
 
@@ -33,3 +31,6 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+import Vue from 'vue';
+
+new Vue().$mount('#app');

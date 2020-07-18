@@ -134,8 +134,8 @@ jobs:
           key: ${{ secrets.KEY }}
           timeout: 2m
           script: |
-          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git reset --hard && git clean -df'
-          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && rm -rf ./vendor'
+            ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git reset --hard && git clean -df'
+            ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && rm -rf ./vendor'
       - name: Git Pull
         uses: appleboy/ssh-action@master
         with:

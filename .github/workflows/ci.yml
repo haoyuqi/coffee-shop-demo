@@ -118,7 +118,7 @@ jobs:
           npm install
           npm run prod
       - name: Laravel Down
-        if: ${{ curl -Iks ${{ secrets.WEB_HOMEPAGE }} | head -n 1 | grep 200 }}
+        if: curl -Iks ${{ secrets.WEB_HOMEPAGE }} | head -n 1 | grep 200
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}

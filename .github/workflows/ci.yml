@@ -110,8 +110,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
@@ -120,25 +118,31 @@ jobs:
           npm install
           npm run prod
       - name: Laravel Down
+        if: ${{ curl -Iks ${{ secrets.WEB_HOMEPAGE }} | head -n 1 | grep 200 }}
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan down'
-      - name: Git Clean
+      - name: Git Code
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git reset --hard && git clean -df'
+          timeout: 2m
+          script: |
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git reset --hard && git clean -df'
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && rm -rf ./vendor'
       - name: Git Pull
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git pull origin master'
       - name: Laravel Clear Cache
         uses: appleboy/ssh-action@master
@@ -146,6 +150,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          timeout: 2m
           script: |
             ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan config:clear'
             ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan view:clear'
@@ -157,6 +162,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          timeout: 2m
           script: |
             ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && composer clear'
             ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist --no-dev'
@@ -175,6 +181,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan migrate --force'
       - name: Laravel Cache
         uses: appleboy/ssh-action@master
@@ -182,6 +189,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          timeout: 2m
           script: |
             ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan config:cache'
             ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan view:cache'
@@ -192,6 +200,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan up'
       - name: Deploy Test
         run: curl -Iks ${{ secrets.WEB_HOMEPAGE }} | head -n 1 | grep 200

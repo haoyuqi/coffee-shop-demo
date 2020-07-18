@@ -117,7 +117,7 @@ jobs:
         run: |
           npm install
           npm run prod
-      - name: Deploy Test
+      - name: Run Status
         run: curl -Iks ${{ secrets.WEB_HOMEPAGE }} | head -n 1 | grep 200
       - name: Laravel Up
         if: ${{ failure() }}
@@ -136,7 +136,7 @@ jobs:
           key: ${{ secrets.KEY }}
           timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan down'
-      - name: Git Code
+      - name: Clear Code
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}

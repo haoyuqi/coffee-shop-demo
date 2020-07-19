@@ -73,20 +73,20 @@
             </li>
         </ul>
 
-        <div class="right">
-            <img class="avatar" :src="user.avatar" v-show="userLoadStatus == 2">
-        </div>
+<!--        <div class="right">-->
+<!--            <img class="avatar" :src="user.avatar" v-show="userLoadStatus == 2">-->
+<!--        </div>-->
     </nav>
 </template>
 <script>
     export default {
         computed: {
-            userLoadStatus() {
-                return this.$store.getters.getUserLoadStatus;
-            },
-            user() {
-                return this.$store.getters.getUser;
-            }
+            // userLoadStatus() {
+            //     return this.$store.getters.getUserLoadStatus;
+            // },
+            // user() {
+            //     return this.$store.getters.getUser;
+            // }
         }
     }
 </script>

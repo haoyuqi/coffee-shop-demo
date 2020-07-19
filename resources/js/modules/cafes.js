@@ -3,7 +3,7 @@ import CafesAPI from '../api/cafe.js';
 export const cafes = {
     state: {
         cafes: [],
-        casesLoadStatus: 0,
+        cafesLoadStatus: 0,
         cafe: {},
         cafeLoadStatus: 0
     },

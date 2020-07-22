@@ -1,11 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import Home from './pages/Home';
-import Cafes from "./pages/Cafes";
-import NewCafe from "./pages/NewCafe";
-import Cafe from "./pages/Cafe";
-
 Vue.use(VueRouter);
 
 export default new VueRouter({
@@ -28,7 +23,7 @@ export default new VueRouter({
                 {
                     path: 'cafes/new',
                     name: 'newcafe',
-                    component: Vue.component('NewCafe', require('./pages/NewCafe.vue').default)
+                    component: Vue.component('home', require('./pages/NewCafe.vue').default)
                 },
                 {
                     path: 'cafes/:id',

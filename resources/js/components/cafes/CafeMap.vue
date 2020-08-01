@@ -38,22 +38,59 @@ export default {
     },
     data() {
         return {
-            // map: {}
+            markers: [],
+        }
+    },
+    computed: {
+        cafes() {
+            return this.$store.getters.getCafes;
+        }
+    },
+    methods: {
+        buildMarkers() {
+            this.clearMarkers();
+
+            for (var i = 0; i < this.cafes.length; i++) {
+                var marker = new AMap.Marker({
+                    position: new AMap.LngLat(parseFloat(this.cafes[i].latitude), parseFloat(this.cafes[i].longitude)),
+                    title: this.cafes[i].name
+                });
+
+                this.markers.push(marker)
+            }
+
+            if (this.markers.length > 0) {
+                this.map.add(this.markers)
+            }
+        },
+
+        clearMarkers() {
+            for (var i = 0; i < this.markers.length; i++) {
+                this.markers[i].setMap(null);
+            }
         }
     },
     mounted() {
-        this.map = AMapLoader.load({
+        AMapLoader.load({
             "key": COFE_CONFIG.GAODE_MAPS_JS_API_KEY
         })
             .then((AMap) => {
-                new AMap.Map('cafe-map', {
+                this.map = new AMap.Map('cafe-map', {
                     center: [this.latitude, this.longitude],
                     zoom: this.zoom
                 })
             })
             .catch(e => {
                 // console.log(e)
-            })
+            });
+        // this.clearMarkers();
+        this.buildMarkers();
+    },
+    watch: {
+        cafes() {
+            // this.clearMarkers();
+            this.buildMarkers();
+        }
     }
 }
 </script>

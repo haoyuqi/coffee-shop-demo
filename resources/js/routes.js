@@ -18,7 +18,7 @@ export default new VueRouter({
                 {
                     path: 'cafes',
                     name: 'cafes',
-                    component: Vue.component('Cafes', require('./pages/Cafe.vue').default)
+                    component: Vue.component('Cafes', require('./pages/Cafes.vue').default)
                 },
                 {
                     path: 'cafes/new',

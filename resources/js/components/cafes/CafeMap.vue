@@ -39,6 +39,7 @@ export default {
     data() {
         return {
             markers: [],
+            infoWindows: []
         }
     },
     computed: {
@@ -61,8 +62,18 @@ export default {
                 var marker = new AMap.Marker({
                     position: new AMap.LngLat(parseFloat(this.cafes[i].latitude), parseFloat(this.cafes[i].longitude)),
                     title: this.cafes[i].name,
-                    icon: icon
+                    icon: icon,
+                    map: this.map
                 });
+
+                var infoWindow = new AMap.infoWindow({
+                    content: this.cafes[i].name
+                });
+                this.infoWindows.push(infoWindow);
+
+                marker.on('click', function () {
+                    infoWindow.open(this.getMap(), this.getPosition());
+                })
 
                 this.markers.push(marker)
             }

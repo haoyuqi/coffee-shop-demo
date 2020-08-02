@@ -50,10 +50,18 @@ export default {
         buildMarkers() {
             this.clearMarkers();
 
+            // 自定义点标记图标
+            var image = COFE_CONFIG.APP_URL + '/img/coffee-marker.png';
+            var icon = new AMap.Icon({
+                image: image,  // 图像 URL
+                imageSize: new AMap.Size(19, 33)  // 设置图标尺寸
+            });
+
             for (var i = 0; i < this.cafes.length; i++) {
                 var marker = new AMap.Marker({
                     position: new AMap.LngLat(parseFloat(this.cafes[i].latitude), parseFloat(this.cafes[i].longitude)),
-                    title: this.cafes[i].name
+                    title: this.cafes[i].name,
+                    icon: icon
                 });
 
                 this.markers.push(marker)

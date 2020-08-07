@@ -21,4 +21,5 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::get('/cafes', 'API\CafesController@getCafes');
     Route::get('/cafes/{id}', 'API\CafesController@getCafe');
     Route::post('/cafes', 'API\CafesController@postNewCafe');
+    Route::get('/brew-methods', 'API\BrewMethodsController@getBrewMethods');
 });

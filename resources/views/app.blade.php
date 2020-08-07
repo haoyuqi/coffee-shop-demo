@@ -15,6 +15,7 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+    <script src="https://webapi.amap.com/maps?v=1.4.8&key={{ env('MIX_GAODE_MAPS_JS_API_KEY') }}"></script>
 </head>
 <body>
 

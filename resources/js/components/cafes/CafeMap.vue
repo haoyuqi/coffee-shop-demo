@@ -12,7 +12,7 @@ div#cafe-map {
 </template>
 
 <script>
-import AMapLoader from "@amap/amap-jsapi-loader";
+
 import {COFE_CONFIG} from "../../config";
 
 export default {
@@ -66,7 +66,7 @@ export default {
                     map: this.map
                 });
 
-                var infoWindow = new AMap.infoWindow({
+                var infoWindow = new AMap.InfoWindow({
                     content: this.cafes[i].name
                 });
                 this.infoWindows.push(infoWindow);
@@ -90,18 +90,10 @@ export default {
         }
     },
     mounted() {
-        AMapLoader.load({
-            "key": COFE_CONFIG.GAODE_MAPS_JS_API_KEY
-        })
-            .then((AMap) => {
-                this.map = new AMap.Map('cafe-map', {
-                    center: [this.latitude, this.longitude],
-                    zoom: this.zoom
-                })
-            })
-            .catch(e => {
-                // console.log(e)
-            });
+        this.map = new AMap.Map('cafe-map', {
+            center: [this.latitude, this.longitude],
+            zoom: this.zoom
+        });
         // this.clearMarkers();
         this.buildMarkers();
     },

@@ -12,7 +12,7 @@ class CafesController extends Controller
 {
     public function getCafes()
     {
-        $cafes = Cafe::with('brewMethods')->all();
+        $cafes = Cafe::with('brewMethods')->get();
 
         return response()->json($cafes);
     }

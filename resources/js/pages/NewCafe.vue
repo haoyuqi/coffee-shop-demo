@@ -124,6 +124,9 @@ export default {
     computed: {
         brewMethods() {
             return this.$store.getters.getBrewMethods;
+        },
+        addCafeStatus() {
+            return this.$store.getters.getCafeAddStatus;
         }
     },
 
@@ -224,10 +227,50 @@ export default {
         removeLocation: function (key) {
             this.locations.splice(key, 1);
             this.validations.locations.splice(key, 1)
+        },
+
+        clearForm() {
+            this.name = '';
+            this.locations = [];
+            this.website = '';
+            this.description = '';
+            this.roaster = false;
+            this.validations = {
+                name: {
+                    is_valid: true,
+                    text: ''
+                },
+                locations: [],
+                oneLocation: {
+                    is_valid: true,
+                    text: ''
+                },
+                website: {
+                    is_valid: true,
+                    text: ''
+                }
+            };
+
+            this.addLocation();
         }
     },
     created() {
         this.addLocation();
+    },
+
+    watch: {
+        'addCafeStatus': function () {
+            if (this.addCafeStatus === 2) {
+                // 添加成功
+                this.clearForm();
+                $("#cafe-added-successfully").show().delay(5000).fadeOut();
+            }
+
+            if (this.addCafeStatus === 3) {
+                // 添加失败
+                $("#cafe-added-unsuccessfully").show().delay(5000).fadeOut();
+            }
+        }
     }
 }
 </script>

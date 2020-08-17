@@ -8,7 +8,12 @@ export const cafes = {
         cafe: {},
         cafeLoadStatus: 0,
 
-        cafeAddStatus: 0
+        cafeAddStatus: 0,
+
+        cafeLikeActionsStatus: 0,
+        cafeUnlikeActionStatus: 0,
+
+        cafeLiked: false,
     },
 
     actions: {
@@ -51,6 +56,32 @@ export const cafes = {
                 .catch(function () {
                     commit('setCafeAddStatus', 3);
                 });
+        },
+
+        likeCafe({commit, state}, data) {
+            commit('setCafeLikeActionStatus', 1);
+
+            CafesAPI.postLikeCafe(data.id)
+                .then(response => {
+                    commit('setCafeLikeActionStatus', 2);
+                    commit('setCafeLiked', true);
+                })
+                .catch(response => {
+                    commit('setCafeLikeActionStatus', 3);
+                })
+        },
+
+        unlikeCafe({commit, state}, data) {
+            commit('setCafeUnlikeActionStatus', 1);
+
+            CafesAPI.deleteLikeCafe(data.id)
+                .then(response => {
+                    commit('setCafeUnlikeActionStatus', 2);
+                    commit('setCafeLiked', false);
+                })
+                .catch(response => {
+                    commit('setCafeUnlikeActionStatus', 3);
+                })
         }
     },
 
@@ -73,6 +104,18 @@ export const cafes = {
 
         setCafeAddStatus(state, status) {
             state.cafeAddStatus = status;
+        },
+
+        setCafeLiked(state, status) {
+            state.cafeLiked = status;
+        },
+
+        setCafeLikeActionStatus(state, statue) {
+            state.cafeLikeActionsStatus = statue;
+        },
+
+        setCafeUnlikeActionStatus(state, status) {
+            state.cafeUnlikeActionStatus = status;
         }
     },
 
@@ -95,6 +138,18 @@ export const cafes = {
 
         getCafeAddStatus(state) {
             return state.cafeAddStatus;
+        },
+
+        getCafeLikedStatus(state) {
+            return state.cafeLiked;
+        },
+
+        getCafeLikeActionStatus(state) {
+            return state.cafeLikeActionsStatus;
+        },
+
+        getCafeUnlikeActionStatus(state) {
+            return state.cafeUnlikeActionStatus;
         }
     }
 }

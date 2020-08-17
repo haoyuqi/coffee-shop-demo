@@ -20,7 +20,10 @@ class CafesController extends Controller
 
     public function getCafe($id)
     {
-        $cafe = Cafe::where('id', $id)->with('brewMethods')->first();
+        $cafe = Cafe::where('id', $id)
+            ->with('brewMethods')
+            ->with('userLike')
+            ->first();
 
         return response()->json($cafe);
 

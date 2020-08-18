@@ -10,7 +10,7 @@ export const cafes = {
 
         cafeAddStatus: 0,
 
-        cafeLikeActionsStatus: 0,
+        cafeLikeActionStatus: 0,
         cafeUnlikeActionStatus: 0,
 
         cafeLiked: false,
@@ -67,8 +67,8 @@ export const cafes = {
 
             CafesAPI.postLikeCafe(data.id)
                 .then(response => {
+                    commit('setCafeLikedStatus', true);
                     commit('setCafeLikeActionStatus', 2);
-                    commit('setCafeLiked', true);
                 })
                 .catch(response => {
                     commit('setCafeLikeActionStatus', 3);
@@ -80,8 +80,8 @@ export const cafes = {
 
             CafesAPI.deleteLikeCafe(data.id)
                 .then(response => {
+                    commit('setCafeLikedStatus', false);
                     commit('setCafeUnlikeActionStatus', 2);
-                    commit('setCafeLiked', false);
                 })
                 .catch(response => {
                     commit('setCafeUnlikeActionStatus', 3);
@@ -115,7 +115,7 @@ export const cafes = {
         },
 
         setCafeLikeActionStatus(state, statue) {
-            state.cafeLikeActionsStatus = statue;
+            state.cafeLikeActionStatus = statue;
         },
 
         setCafeUnlikeActionStatus(state, status) {
@@ -149,7 +149,7 @@ export const cafes = {
         },
 
         getCafeLikeActionStatus(state) {
-            return state.cafeLikeActionsStatus;
+            return state.cafeLikeActionStatus;
         },
 
         getCafeUnlikeActionStatus(state) {

@@ -111,7 +111,7 @@ class CafesController extends Controller
         $now = now();
         $cafe = Cafe::where('id', $cafeID)->first();
 
-        $cafe->like()->attach(Auth::user()->id, [
+        $cafe->likes()->attach(Auth::user()->id, [
             'created_at' => $now,
             'updated_at' => $now,
         ]);
@@ -123,7 +123,7 @@ class CafesController extends Controller
     {
         $cafe = Cafe::where('id', $cafeID)->first();
 
-        $cafe->like()->detach(Auth::user()->id);
+        $cafe->likes()->detach(Auth::user()->id);
 
         return response()->json(null, 204);
     }

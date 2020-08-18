@@ -21,6 +21,11 @@ class Cafe extends Model
         return $this->hasOne(self::class, 'id', 'parent');
     }
 
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'users_cafes_likes', 'cafe_id', 'user_id');
+    }
+
     public function userLike()
     {
         return $this->belongsToMany(User::class, 'users_cafes_likes', 'cafe_id', 'user_id')

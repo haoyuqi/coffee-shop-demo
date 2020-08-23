@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCafeRequest;
 use App\Models\Cafe;
 use App\Utilities\GaodeMaps;
+use App\Utilities\Tagger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CafesController extends Controller
 {
@@ -124,6 +126,33 @@ class CafesController extends Controller
         $cafe = Cafe::where('id', $cafeID)->first();
 
         $cafe->likes()->detach(Auth::user()->id);
+
+        return response()->json(null, 204);
+    }
+
+    public function postAddTags(Request $request, $cafeID)
+    {
+        $tags = $request->input('tags');
+        $cafe = Cafe::find($cafeID);
+
+        Tagger::tagCafe($cafe, $tags, auth()->user()->id);
+
+        $cafe = Cafe::where('id', $cafeID)
+            ->with('brewMethods')
+            ->with('userLike')
+            ->with('tags')
+            ->first();
+
+        return response()->json($cafe, 200);
+    }
+
+    public function deleteCafeTag($cafeID, $tagID)
+    {
+        DB::table('cafes_users_tags')
+            ->where('cafe_id', $cafeID)
+            ->where('tag_id', $tagID)
+            ->where('user_id', auth()->user()->id)
+            ->delete();
 
         return response()->json(null, 204);
     }

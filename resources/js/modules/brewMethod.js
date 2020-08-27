@@ -28,11 +28,11 @@ export const brewMethods = {
         },
 
         setBrewMethods(state, brewMethods) {
-            state.brewMethdos = brewMethods;
+            state.brewMethods = brewMethods;
         }
     },
 
-    getter: {
+    getters: {
         getBrewMethods(state) {
             return state.brewMethods;
         },

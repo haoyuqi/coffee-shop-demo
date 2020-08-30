@@ -5,7 +5,7 @@ div.tags-input-container {
     position: relative;
 
     div.tags-input {
-        display: block;
+        display: table;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         width: 100%;
@@ -130,6 +130,7 @@ div.tags-input-container {
 <script>
 import {COFE_CONFIG} from '../../../config.js';
 import {EventBus} from '../../../event-bus.js';
+import _ from 'lodash';
 
 export default {
     props: ['unique'],
@@ -212,7 +213,8 @@ export default {
         },
 
         // 根据搜索词查询后端自动提示 API 接口并将结果展示到下拉列表
-        searchTags() {
+        // 引入防抖动函数，在 300ms 后执行匿名函数内代码
+        searchTags: _.debounce(function (e) {
             if (this.currentTag.length > 2 && !this.pauseSearch) {
                 this.searchSelectedIndex = -1;
                 axios.get(COFE_CONFIG.API_URL + '/tags', {
@@ -223,7 +225,7 @@ export default {
                     this.tagSearchResults = response.data;
                 }.bind(this));
             }
-        },
+        }, 300),
 
         // 检查标签是否重复
         checkDuplicates(tagName) {

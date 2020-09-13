@@ -22,7 +22,6 @@ div#home {
         <span v-show="cafesLoadStatus == 1">Loading</span>
         <span v-show="cafesLoadStatus == 2">Cafes loaded successfully!</span>
         <span v-show="cafesLoadStatus == 3">Cafes loaded unsuccessfully!</span>
-    </div>
     <div class="grid-container">
         <div class="grid-x">
             <div class="large-12 medium-12 small-12 columns">
@@ -30,12 +29,22 @@ div#home {
             </div>
         </div>
     </div>
+        <cafe-filter></cafe-filter>
 
-    <cafe-filter></cafe-filter>
+        <div class="grid-container">
+            <div class="grid-x grid-padding-x">
+                <loader v-show="cafesLoadStatus == 1" :width="100" :height="100"></loader>
+                <cafe-card v-for="cafe in cafes" :key="cafe.id" :cafe="cafe"></cafe-card>
+            </div>
+        </div>
+
+    </div>
 </template>
 
 <script>
 import CafeFilter from "../components/cafes/CafeFilter.vue";
+import Loader from "../components/global/Loader.vue";
+import CafeCard from "../components/cafes/CafeCard";
 
 export default {
     created() {
@@ -53,7 +62,9 @@ export default {
         }
     },
     components: {
-        CafeFilter
+        CafeFilter,
+        Loader,
+        CafeCard
     }
 }
 </script>

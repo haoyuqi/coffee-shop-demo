@@ -103,7 +103,7 @@ export default {
             }
         },
         updateFilterDisplay() {
-            EventBus.$emit('filter-updated', {
+            EventBus.$emit('filters-updated', {
                 text: this.textSearch,
                 tags: this.tags,
                 roaster: this.roaster,

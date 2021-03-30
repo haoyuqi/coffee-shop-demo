@@ -12,7 +12,7 @@
     "devDependencies": {
         "@amap/amap-jsapi-loader": "0.0.3",
         "@babel/compat-data": "7.9",
-        "axios": "^0.19",
+        "axios": "^0.21",
         "cross-env": "^7.0",
         "es6-promise": "^4.2.8",
         "foundation-sites": "^6.6.1",

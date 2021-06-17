@@ -3,19 +3,39 @@ div#cafe-map {
     width: 100%;
     height: 400px;
 }
+div#cafe-map-container {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    right: 0px;
+    bottom: 50px;
+
+    div#cafe-map {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+    }
+}
 </style>
 
 <template>
-    <div id="cafe-map">
+    <div id="cafe-map-container">
+        <div id="cafe-map">
 
+        </div>
+        <cafe-map-filter></cafe-map-filter>
     </div>
 </template>
 
 <script>
 
 import {COFE_CONFIG} from "../../config";
+import CafeMapFilter from "./CafeMapFilter.vue"
 
 export default {
+    components: { CafeMapFilter},
     props: {
         'latitude': {
             type: Number,

@@ -23,26 +23,32 @@ div#cafe-map-container {
             color: $dark-color;
             font-family: 'Josefin Sans', sans-serif;
         }
+
         div.cafe-address {
             display: block;
             text-align: center;
             margin-top: 5px;
             color: $grey;
             font-family: 'Lato', sans-serif;
+
             span.street {
                 font-size: 14px;
                 display: block;
             }
+
             span.city {
                 font-size: 12px;
             }
+
             span.state {
                 font-size: 12px;
             }
+
             span.zip {
                 font-size: 12px;
                 display: block;
             }
+
             a {
                 color: $secondary-color;
                 font-weight: bold;
@@ -71,7 +77,7 @@ import {CafeBrewMethodsFilter} from "../../mixins/filters/CafeBrewMethodsFilter.
 import {CafeTextFilter} from "../../mixins/filters/CafeTextFilter.js";
 
 export default {
-    components: { CafeMapFilter},
+    components: {CafeMapFilter},
     props: {
         'latitude': {
             type: Number,
@@ -94,9 +100,9 @@ export default {
     },
 
     mixins: [
-      CafeIsRoasterFilter,
-      CafeBrewMethodsFilter,
-      CafeTextFilter,
+        CafeIsRoasterFilter,
+        CafeBrewMethodsFilter,
+        CafeTextFilter,
     ],
 
     data() {
@@ -130,7 +136,7 @@ export default {
                     icon: icon,
                     map: this.map,
                     extData: {
-                        'cafe':this.cafes[i]
+                        'cafe': this.cafes[i]
                     }
                 });
 
@@ -148,14 +154,6 @@ export default {
                 marker.content = contentString;
 
                 marker.on('click', mapClick);
-                // var infoWindow = new AMap.InfoWindow({
-                //     content: this.cafes[i].name
-                // });
-                // this.infoWindows.push(infoWindow);
-
-                // marker.on('click', function () {
-                //     infoWindow.open(this.getMap(), this.getPosition());
-                // })
 
                 this.markers.push(marker)
             }

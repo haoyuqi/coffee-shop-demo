@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'Web'], function () {
-    Route::get('/', 'AppController@getApp')->middleware('auth');
-
-    Route::get('/login', 'AppController@getLogin')->middleware('guest')->name('login');
+    Route::get('/', 'AppController@getApp');
 
     Route::get('/auth/{social}', 'AuthenticationController@getSocialRedirect')->middleware('guest');
 

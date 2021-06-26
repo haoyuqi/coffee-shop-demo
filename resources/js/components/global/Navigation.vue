@@ -100,7 +100,7 @@
 
             logout() {
                 this.$store.dispatch('logoutUser');
-                window.location = '/logout';
+                window.location = '/';
             }
         }
     }

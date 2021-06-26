@@ -18,6 +18,11 @@ export const users = {
                     commit('setUser', {});
                     commit('setUserLoadStatus', 3);
                 })
+        },
+
+        logoutUser({commit}) {
+            commit('setUser', {});
+            commit('setUserLoadStatus', 0);
         }
     },
     mutations: {

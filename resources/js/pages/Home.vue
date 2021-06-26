@@ -25,7 +25,10 @@ div#home {
     <div class="grid-container">
         <div class="grid-x">
             <div class="large-12 medium-12 small-12 columns">
-                <router-link :to="{ name: 'newcafe' }" class="add-cafe-button">+ 新增咖啡店</router-link>
+                <router-link :to="{ name: 'newcafe' }" v-if="user !== '' && userLoadStatus === 2" class="add-cafe-button">
+                    + 新增咖啡店
+                </router-link>
+                <a class="add-cafe-text" v-if="user === '' && userLoadStatus === 2" v-on:click="login()">登录后添加咖啡店</a>
             </div>
         </div>
     </div>
@@ -45,6 +48,7 @@ div#home {
 import CafeFilter from "../components/cafes/CafeFilter.vue";
 import Loader from "../components/global/Loader.vue";
 import CafeCard from "../components/cafes/CafeCard";
+import { EventBus } from "../event-bus.js";
 
 export default {
     created() {
@@ -59,12 +63,26 @@ export default {
         // 获取 cafes
         cafes() {
             return this.$store.getters.getCafes
+        },
+
+        userLoadStatus() {
+            return this.$store.getters.getUserLoadStatus;
+        },
+
+        user() {
+            return this.$store.getters.getUser;
         }
     },
     components: {
         CafeFilter,
         Loader,
         CafeCard
+    },
+
+    methods: {
+        login() {
+            EventBus.$emit('prompt-login')
+        }
     }
 }
 </script>

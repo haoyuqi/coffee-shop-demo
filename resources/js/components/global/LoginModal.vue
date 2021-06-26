@@ -38,7 +38,7 @@ div#login-modal {
     <div id="login-modal" v-show="show" v-on:click="show = false">
         <div class="login-box">
             <a href="/auth/github" v-on:click.stop="">
-                <img src="/storage/img/github-login.jpg"/>
+                <img :src="login_img"/>
             </a>
         </div>
     </div>
@@ -46,11 +46,13 @@ div#login-modal {
 
 <script>
 import {EventBus} from "../../event-bus.js";
+import {COFE_CONFIG} from "../../config.js";
 
 export default {
     data() {
         return {
-            show: false
+            show: false,
+            login_img: COFE_CONFIG.APP_URL+'/img/github-login.jpeg'
         }
     },
 

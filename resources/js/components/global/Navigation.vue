@@ -74,11 +74,15 @@
         </ul>
 
         <div class="right">
-            <img class="avatar" :src="user.avatar" v-show="userLoadStatus == 2">
+            <img class="avatar" v-if="user !== '' && userLoadStatus === 2" :src="user.avatar" v-show="userLoadStatus === 2">
+            <span class="logout" v-if="user !== '' && userLoadStatus === 2" @click="logout()">退出</span>
+            <span class="login" v-if="user === ''" @click="login()">登录</span>
         </div>
     </nav>
 </template>
 <script>
+    import { EventBus } from "../../event-bus.js";
+
     export default {
         computed: {
             userLoadStatus() {
@@ -86,6 +90,17 @@
             },
             user() {
                 return this.$store.getters.getUser;
+            }
+        },
+
+        methods: {
+            login() {
+                EventBus.$emit('prompt-login')
+            },
+
+            logout() {
+                this.$store.dispatch('logoutUser');
+                window.location = '/logout';
             }
         }
     }

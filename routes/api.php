@@ -33,4 +33,6 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
     Route::post('/cafes/{id}/tags', 'API\CafesController@postAddTags');
     Route::delete('/cafes/{id}/tags/{tagID}', 'API\CafesController@deleteCafeTag');
+
+    Route::put('/user', 'API\UserController@putUpdateUser');
 });

@@ -75,6 +75,9 @@
 
         <div class="right">
             <img class="avatar" v-if="user !== '' && userLoadStatus === 2" :src="user.avatar" v-show="userLoadStatus === 2">
+            <router-link :to="{ name: 'profile'}" v-if="user !== '' && userLoadStatus === 2" class="profile">
+                个人信息
+            </router-link>
             <span class="logout" v-if="user !== '' && userLoadStatus === 2" @click="logout()">退出</span>
             <span class="login" v-if="user === ''" @click="login()">登录</span>
         </div>

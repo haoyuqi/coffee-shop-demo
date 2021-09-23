@@ -145,18 +145,19 @@ export default {
     methods: {
         handleFileUpload: function () {
           this.picture = this.$refs.photo.files[0]
+            console.log(this.picture)
         },
 
         submitNewCafe: function () {
             if (this.validateNewCafe()) {
-                this.$store.dispatch('addCafe', {
-                    name: this.name,
-                    locations: this.locations,
-                    website: this.website,
-                    description: this.description,
-                    roaster: this.roaster,
-                    picture: this.picture
-                });
+                let data = new FormData;
+                data.append('name', this.name);
+                data.append('locations', JSON.stringify(this.locations));
+                data.append('website', this.website);
+                data.append('description', this.description);
+                data.append('roaster', this.roaster);
+                data.append('picture', this.picture);
+                this.$store.dispatch('addCafe', data);
             }
         },
 

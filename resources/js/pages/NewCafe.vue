@@ -26,6 +26,11 @@
                             <input type="text" placeholder="简介" v-model="description">
                         </label>
                     </div>
+                    <div class="large-12 medium-12 small-12 cell">
+                        <label>图片
+                            <input type="file" id="cafe-photo" ref="photo" v-on:change="handleFileUpload()"/>
+                        </label>
+                    </div>
                 </div>
                 <div class="grid-x grid-padding-x" v-for="(location, key) in locations">
                     <div class="large-12 medium-12 small-12 cell">
@@ -108,6 +113,7 @@ export default {
             locations: [],
             website: '',
             description: '',
+            picture: '',
             roaster: false,
             validations: {
                 name: {
@@ -137,6 +143,10 @@ export default {
     },
 
     methods: {
+        handleFileUpload: function () {
+          this.picture = this.$refs.photo.files[0]
+        },
+
         submitNewCafe: function () {
             if (this.validateNewCafe()) {
                 this.$store.dispatch('addCafe', {
@@ -144,7 +154,8 @@ export default {
                     locations: this.locations,
                     website: this.website,
                     description: this.description,
-                    roaster: this.roaster
+                    roaster: this.roaster,
+                    picture: this.picture
                 });
             }
         },
@@ -240,6 +251,7 @@ export default {
             this.locations = [];
             this.website = '';
             this.description = '';
+            this.picture = '';
             this.roaster = false;
             this.validations = {
                 name: {

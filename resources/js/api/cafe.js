@@ -12,7 +12,7 @@ export default {
     },
 
     // POST api/v1/cafes
-    postAddNewCafe: function (name, locations, website, description, roaster) {
+    postAddNewCafe: function (name, locations, website, description, roaster, picture) {
         return axios.post(COFE_CONFIG.API_URL + '/cafes',
             {
                 name: name,
@@ -20,6 +20,11 @@ export default {
                 website: website,
                 description: description,
                 roaster: roaster
+            },
+            {
+                headers: {
+                    'Content-type': 'multipart/form-data'
+                }
             }
         );
     },

@@ -5,11 +5,13 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCafeRequest;
 use App\Models\Cafe;
+use App\Models\CafePhoto;
 use App\Utilities\GaodeMaps;
 use App\Utilities\Tagger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CafesController extends Controller
 {
@@ -41,7 +43,7 @@ class CafesController extends Controller
         // 已添加的咖啡店
         $addedCafes = [];
         // 所有位置信息
-        $locations = $request->input('locations');
+        $locations = json_decode($request->input('locations'), true);
 
         // 父节点（可理解为总店）
         $parentCafe = new Cafe();
@@ -72,6 +74,27 @@ class CafesController extends Controller
         // 添加者
         $parentCafe->added_by = $request->user()->id;
         $parentCafe->save();
+
+        $photo = $request->file('picture');
+        if ($photo && $photo->isValid()) {
+            $disk = Storage::disk('photos');
+
+            if (!$disk->exists($parentCafe->id)) {
+                $disk->makeDirectory($parentCafe->id);
+            }
+
+            $filename = time() . '-' . $photo->getClientOriginalName();
+            $filePath = $disk->putFileAs($parentCafe->id, $photo, $filename);
+            if ($filePath) {
+                $cafePhoto = new CafePhoto();
+
+                $cafePhoto->cafe_id = $parentCafe->id;
+                $cafePhoto->uploaded_by = $request->user()->id;
+                $cafePhoto->file_url = $filePath;
+
+                $cafePhoto->save();
+            }
+        }
 
         // 冲泡方法
         $brewMethods = $locations[0]['methodsAvailable'];

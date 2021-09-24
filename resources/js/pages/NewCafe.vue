@@ -145,7 +145,6 @@ export default {
     methods: {
         handleFileUpload: function () {
           this.picture = this.$refs.photo.files[0]
-            console.log(this.picture)
         },
 
         submitNewCafe: function () {
